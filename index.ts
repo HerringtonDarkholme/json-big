@@ -1,12 +1,15 @@
-var json_stringify = require('./lib/stringify.js').stringify;
-var json_parse = require('./lib/parse.js');
+import {stringify} from './lib/stringify';
+import {JSONParse, Options} from './lib/parse';
 
-module.exports = function (options) {
+export default function JSONBig(options?: Options) {
   return {
-    parse: json_parse(options),
-    stringify: json_stringify,
+    parse: JSONParse(options),
+    stringify,
   };
 };
+export const parse = JSONParse()
+export const jsonStringify = stringify;
+
 //create the default method members with no options applied for backwards compatibility
-module.exports.parse = json_parse();
-module.exports.stringify = json_stringify;
+JSONBig.parse = parse;
+JSONBig.stringify = stringify;

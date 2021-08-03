@@ -71,7 +71,7 @@ const suspectConstructorRx =
     hasOwnProperty, message, n, name, prototype, push, r, t, text
 */
 
-interface Options {
+export interface Options {
   strict: boolean; // not being strict means do not generate syntax errors for "duplicate key"
   storeAsString: boolean; // toggles whether the values should be stored as BigNumber (default) or a string
   alwaysParseAsBig: boolean; // toggles whether all numbers should be Big
@@ -80,7 +80,7 @@ interface Options {
   constructorAction: 'error' | 'ignore' | 'preserve';
 }
 
-export function JSONParse(options: Options) {
+export function JSONParse(options?: Options) {
   // This is a function that can parse a JSON text, producing a JavaScript
   // data structure. It is a simple, recursive descent parser. It does not use
   // eval or regular expressions, so it can be used as a model for implementing
