@@ -1,15 +1,12 @@
-const mocha = require('mocha')
-const { assert } = require('chai')
-const { expect } = require('chai')
-const BigNumber = require('bignumber.js')
+import chai from 'chai'
+import JSONBig from '../index'
+const {expect} = chai;
 
 describe('Testing native BigInt support: stringify', () => {
   if (typeof BigInt === 'undefined') {
-    console.log('No native BigInt')
     return
   }
   it('Should show JSONbig can stringify native BigInt', (done) => {
-    const JSONbig = require('../index')
     const obj = {
       // We cannot use n-literals - otherwise older NodeJS versions fail on this test
       big: eval('123456789012345678901234567890n'),
@@ -23,7 +20,7 @@ describe('Testing native BigInt support: stringify', () => {
     )
     expect(typeof obj.big, 'typeof big int').to.equal('bigint')
 
-    const output = JSONbig.stringify(obj)
+    const output = JSONBig.stringify(obj)
     expect(output).to.equal(
       '{'
         + '"big":123456789012345678901234567890,'

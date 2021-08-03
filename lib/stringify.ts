@@ -318,7 +318,7 @@ function str(key: string|number, holder: Record<string|number, any>): string {
 
 // If the JSON object does not yet have a stringify method, give it one.
 
-export function stringify(value: unknown, replacer: Function|object|number, space: string | number) {
+export function stringify(value: unknown, replacer?: Function|object|number, space?: string | number) {
   // The stringify method takes a value and an optional replacer, and an optional
   // space parameter, and returns a JSON text. The replacer can be a function
   // that can replace values, or an array of strings that will select the keys.

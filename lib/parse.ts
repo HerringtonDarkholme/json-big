@@ -70,12 +70,12 @@ const suspectConstructorRx = /(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|
 */
 
 export interface Options {
-  strict: boolean; // not being strict means do not generate syntax errors for "duplicate key"
-  storeAsString: boolean; // toggles whether the values should be stored as BigNumber (default) or a string
-  alwaysParseAsBig: boolean; // toggles whether all numbers should be Big
-  useNativeBigInt: boolean; // toggles whether to use native BigInt instead of bignumber.js
-  protoAction: 'error' | 'ignore' | 'preserve';
-  constructorAction: 'error' | 'ignore' | 'preserve';
+  strict?: boolean; // not being strict means do not generate syntax errors for "duplicate key"
+  storeAsString?: boolean; // toggles whether the values should be stored as BigNumber (default) or a string
+  alwaysParseAsBig?: boolean; // toggles whether all numbers should be Big
+  useNativeBigInt?: boolean; // toggles whether to use native BigInt instead of bignumber.js
+  protoAction?: 'error' | 'ignore' | 'preserve';
+  constructorAction?: 'error' | 'ignore' | 'preserve';
 }
 
 export function JSONParse(options?: Options) {

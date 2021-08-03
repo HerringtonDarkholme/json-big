@@ -1,14 +1,13 @@
-const mocha = require('mocha')
-const { assert } = require('chai')
-const { expect } = require('chai')
+import chai from 'chai'
+import JSONBig from '../index'
+const {expect} = chai;
 
 describe("Testing 'strict' option", () => {
   const dupkeys = '{ "dupkey": "value 1", "dupkey": "value 2"}'
   it('Should show that duplicate keys just get overwritten by default', (done) => {
-    const JSONbig = require('../index')
-    let result = 'before'
+    let result: any = 'before'
     function tryParse() {
-      result = JSONbig.parse(dupkeys)
+      result = JSONBig.parse(dupkeys)
     }
     expect(tryParse).to.not.throw('anything')
     expect(result.dupkey).to.equal('value 2')
@@ -16,7 +15,7 @@ describe("Testing 'strict' option", () => {
   })
 
   it("Should show that the 'strict' option will fail-fast on duplicate keys", (done) => {
-    const JSONstrict = require('../index')({ strict: true })
+    const JSONstrict = JSONBig({ strict: true })
     let result = 'before'
     function tryParse() {
       result = JSONstrict.parse(dupkeys)

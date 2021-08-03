@@ -1,5 +1,6 @@
-const { expect } = require('chai')
-const makeJSON = require('../index.js')
+import chai from 'chai'
+import makeJSON from '../index'
+const {expect} = chai;
 
 describe('__proto__ and constructor assignment', () => {
   it('should set __proto__ property but not a prototype if protoAction is set to preserve', () => {
@@ -12,7 +13,7 @@ describe('__proto__ and constructor assignment', () => {
 
   it('should throw an exception if protoAction set to invalid value', () => {
     expect(() => {
-      makeJSON({ protoAction: 'invalid value' })
+      makeJSON({ protoAction: 'invalid value'} as any)
     }).to.throw(
       'Incorrect value for protoAction option, must be "error", "ignore" or undefined but passed invalid value',
     )
@@ -20,7 +21,7 @@ describe('__proto__ and constructor assignment', () => {
 
   it('should throw an exception if constructorAction set to invalid value', () => {
     expect(() => {
-      makeJSON({ constructorAction: 'invalid value' })
+      makeJSON({ constructorAction: 'invalid value'} as any)
     }).to.throw(
       'Incorrect value for constructorAction option, must be "error", "ignore" or undefined but passed invalid value',
     )
