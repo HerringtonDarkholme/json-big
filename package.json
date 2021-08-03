@@ -5,11 +5,10 @@
   "module": "dist/index.js",
   "type": "module",
   "files": [
-    "index.js",
-    "lib/parse.js",
-    "lib/stringify.js"
+    "dist"
   ],
   "scripts": {
+    "prepublish": "tsc",
     "test": "NODE_OPTIONS='--experimental-specifier-resolution=node' mocha --check-leaks test/*-test.ts"
   },
   "repository": {
