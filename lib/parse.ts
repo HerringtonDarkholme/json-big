@@ -150,7 +150,7 @@ export function JSONParse(options?: Options) {
     t: '\t',
   }
   let text: string
-  const error = function (m) {
+  const error = function (m: string) {
     // Call error when something is wrong.
 
     throw {
@@ -197,6 +197,7 @@ export function JSONParse(options?: Options) {
     if (ch === 'e' || ch === 'E') {
       string += ch
       next()
+      // @ts-ignore
       if (ch === '-' || ch === '+') {
         string += ch
         next()
@@ -226,7 +227,7 @@ export function JSONParse(options?: Options) {
           : new BigNumber(number)
     }
   }
-  const string = function () {
+  function string() {
     // Parse a string value.
 
     let hex
@@ -323,11 +324,12 @@ export function JSONParse(options?: Options) {
   function array() {
     // Parse an array value.
 
-    const array = []
+    const array = [] as unknown[]
 
     if (ch === '[') {
       next('[')
       white()
+      // @ts-ignore
       if (ch === ']') {
         next(']')
         return array // empty array
@@ -335,6 +337,7 @@ export function JSONParse(options?: Options) {
       while (ch) {
         array.push(value())
         white()
+        // @ts-ignore
         if (ch === ']') {
           next(']')
           return array
@@ -345,7 +348,7 @@ export function JSONParse(options?: Options) {
     }
     error('Bad array')
   }
-  const object = function () {
+  const object = function (): any {
     // Parse an object value.
 
     let key
@@ -354,12 +357,13 @@ export function JSONParse(options?: Options) {
     if (ch === '{') {
       next('{')
       white()
+      // @ts-ignore
       if (ch === '}') {
         next('}')
         return object // empty object
       }
       while (ch) {
-        key = string()
+        key = string()!
         white()
         next(':')
         if (
@@ -390,6 +394,7 @@ export function JSONParse(options?: Options) {
         }
 
         white()
+        // @ts-ignore
         if (ch === '}') {
           next('}')
           return object
@@ -424,7 +429,7 @@ export function JSONParse(options?: Options) {
     // result.
 
     return typeof reviver === 'function'
-      ? (function walk(holder, key) {
+      ? (function walk(holder: any, key) {
         let v
         const value = holder[key]
         if (value && typeof value === 'object') {
