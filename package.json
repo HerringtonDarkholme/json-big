@@ -28,8 +28,13 @@
     "bignumber.js": "^9.0.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.29.0",
+    "@typescript-eslint/parser": "^4.29.0",
     "chai": "4.2.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
     "mocha": "^8.1.0",
-    "prettier": "^2.3.2"
+    "typescript": "^4.3.5"
   }
 }
