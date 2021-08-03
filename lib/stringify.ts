@@ -152,14 +152,6 @@ import BigNumber from 'bignumber.js'
     test, toJSON, toString, valueOf
 */
 
-// Create a JSON object only if one does not already exist. We create the
-// methods in a closure to avoid creating global variables.
-
-function f(n: number) {
-  // Format integers to have at least two digits.
-  return n < 10 ? `0${n}` : n
-}
-
 const escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g
 let gap: string
 let indent: string
@@ -172,7 +164,7 @@ const meta = {
   '\r': '\\r',
   '"': '\\"',
   '\\': '\\\\',
-}
+} as Record<string, string>
 let rep: unknown
 
 function quote(string: string) {
@@ -194,7 +186,7 @@ function quote(string: string) {
     : `"${string}"`
 }
 
-function str(key, holder) {
+function str(key: string|number, holder: Record<string|number, any>): string {
   // Produce a string from holder[key].
 
   let i // The loop counter.
@@ -239,7 +231,6 @@ function str(key, holder) {
     return isFinite(value) ? String(value) : 'null'
 
   case 'boolean':
-  case 'null':
   case 'bigint':
     // If the value is a boolean or null, convert it to a string. Note:
     // typeof null does not produce 'null'. The case is included here in
@@ -320,6 +311,8 @@ function str(key, holder) {
         : `{${partial.join(',')}}`
     gap = mind
     return v
+    default:
+      return 'null'
   }
 }
 
