@@ -1,8 +1,8 @@
 {
-  "name": "json-bigint",
+  "name": "json-big",
   "version": "1.0.0",
   "description": "JSON.parse with bigints support",
-  "main": "index.js",
+  "module": "dist/index.js",
   "files": [
     "index.js",
     "lib/parse.js",
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "chai": "4.2.0",
-    "mocha": "8.0.1"
+    "mocha": "^8.1.0",
+    "prettier": "^2.3.2"
   }
 }

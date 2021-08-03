@@ -1,11 +1,13 @@
-var BigNumber = null;
+import BigNumber from 'bignumber.js';
 
 // regexpxs extracted from
 // (c) BSD-3-Clause
 // https://github.com/fastify/secure-json-parse/graphs/contributors and https://github.com/hapijs/bourne/graphs/contributors
 
-const suspectProtoRx = /(?:_|\\u005[Ff])(?:_|\\u005[Ff])(?:p|\\u0070)(?:r|\\u0072)(?:o|\\u006[Ff])(?:t|\\u0074)(?:o|\\u006[Ff])(?:_|\\u005[Ff])(?:_|\\u005[Ff])/;
-const suspectConstructorRx = /(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)/;
+const suspectProtoRx =
+  /(?:_|\\u005[Ff])(?:_|\\u005[Ff])(?:p|\\u0070)(?:r|\\u0072)(?:o|\\u006[Ff])(?:t|\\u0074)(?:o|\\u006[Ff])(?:_|\\u005[Ff])(?:_|\\u005[Ff])/;
+const suspectConstructorRx =
+  /(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)/;
 
 /*
     json_parse.js
@@ -69,9 +71,16 @@ const suspectConstructorRx = /(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|
     hasOwnProperty, message, n, name, prototype, push, r, t, text
 */
 
-var json_parse = function (options) {
-  'use strict';
+interface Options {
+  strict: boolean; // not being strict means do not generate syntax errors for "duplicate key"
+  storeAsString: boolean; // toggles whether the values should be stored as BigNumber (default) or a string
+  alwaysParseAsBig: boolean; // toggles whether all numbers should be Big
+  useNativeBigInt: boolean; // toggles whether to use native BigInt instead of bignumber.js
+  protoAction: 'error' | 'ignore' | 'preserve';
+  constructorAction: 'error' | 'ignore' | 'preserve';
+}
 
+export function JSONParse(options: Options) {
   // This is a function that can parse a JSON text, producing a JavaScript
   // data structure. It is a simple, recursive descent parser. It does not use
   // eval or regular expressions, so it can be used as a model for implementing
@@ -205,7 +214,6 @@ var json_parse = function (options) {
       if (!isFinite(number)) {
         error('Bad number');
       } else {
-        if (BigNumber == null) BigNumber = require('bignumber.js');
         //if (number > 9007199254740992 || number < -9007199254740992)
         // Bignumber has stricter check: everything with length > 15 digits disallowed
         if (string.length > 15)
@@ -438,6 +446,4 @@ var json_parse = function (options) {
         })({ '': result }, '')
       : result;
   };
-};
-
-module.exports = json_parse;
+}
