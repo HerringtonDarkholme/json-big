@@ -137,8 +137,8 @@ export function JSONParse(options?: Options) {
     }
   }
 
-  let at // The index of the current character
-  let ch // The current character
+  let at: number // The index of the current character
+  let ch: string // The current character
   const escapee = {
     '"': '"',
     '\\': '\\',
@@ -149,7 +149,7 @@ export function JSONParse(options?: Options) {
     r: '\r',
     t: '\t',
   }
-  let text
+  let text: string
   const error = function (m) {
     // Call error when something is wrong.
 
@@ -160,7 +160,7 @@ export function JSONParse(options?: Options) {
       text,
     }
   }
-  const next = function (c) {
+  const next = function (c?: string) {
     // If a c parameter is provided, verify that it matches the current character.
 
     if (c && c !== ch) {
@@ -301,8 +301,26 @@ export function JSONParse(options?: Options) {
     }
     error(`Unexpected '${ch}'`)
   }
-  let value // Place holder for the value function.
-  const array = function () {
+
+  function value() {
+    // Parse a JSON value. It could be an object, an array, a string, a number,
+    // or a word.
+
+    white()
+    switch (ch) {
+    case '{':
+      return object()
+    case '[':
+      return array()
+    case '"':
+      return string()
+    case '-':
+      return number()
+    default:
+      return ch >= '0' && ch <= '9' ? number() : word()
+    }
+  }
+  function array() {
     // Parse an array value.
 
     const array = []
@@ -383,29 +401,11 @@ export function JSONParse(options?: Options) {
     error('Bad object')
   }
 
-  value = function () {
-    // Parse a JSON value. It could be an object, an array, a string, a number,
-    // or a word.
-
-    white()
-    switch (ch) {
-    case '{':
-      return object()
-    case '[':
-      return array()
-    case '"':
-      return string()
-    case '-':
-      return number()
-    default:
-      return ch >= '0' && ch <= '9' ? number() : word()
-    }
-  }
 
   // Return the json_parse function. It will have access to all of the above
   // functions and variables.
 
-  return function (source, reviver) {
+  return function (source: unknown, reviver?: Function) {
     let result
 
     text = `${source}`
@@ -425,7 +425,6 @@ export function JSONParse(options?: Options) {
 
     return typeof reviver === 'function'
       ? (function walk(holder, key) {
-        let k
         let v
         const value = holder[key]
         if (value && typeof value === 'object') {

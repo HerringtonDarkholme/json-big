@@ -155,15 +155,14 @@ import BigNumber from 'bignumber.js'
 // Create a JSON object only if one does not already exist. We create the
 // methods in a closure to avoid creating global variables.
 
-function f(n) {
+function f(n: number) {
   // Format integers to have at least two digits.
   return n < 10 ? `0${n}` : n
 }
 
-const cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g
 const escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g
-let gap
-let indent
+let gap: string
+let indent: string
 const meta = {
   // table of character substitutions
   '\b': '\\b',
@@ -174,9 +173,9 @@ const meta = {
   '"': '\\"',
   '\\': '\\\\',
 }
-let rep
+let rep: unknown
 
-function quote(string) {
+function quote(string: string) {
   // If the string contains no control characters, no quote characters, and no
   // backslash characters, then we can safely slap some quotes around it.
   // Otherwise we must also replace the offending characters with safe escape
@@ -289,7 +288,7 @@ function str(key, holder) {
 
     // If the replacer is an array, use it to select the members to be stringified.
 
-    if (rep && typeof rep === 'object') {
+    if (Array.isArray(rep)) {
       length = rep.length
       for (i = 0; i < length; i += 1) {
         if (typeof rep[i] === 'string') {
@@ -326,7 +325,7 @@ function str(key, holder) {
 
 // If the JSON object does not yet have a stringify method, give it one.
 
-export function stringify(value, replacer, space) {
+export function stringify(value: unknown, replacer: Function|object|number, space: string | number) {
   // The stringify method takes a value and an optional replacer, and an optional
   // space parameter, and returns a JSON text. The replacer can be a function
   // that can replace values, or an array of strings that will select the keys.
@@ -357,7 +356,7 @@ export function stringify(value, replacer, space) {
   if (
     replacer
     && typeof replacer !== 'function'
-    && (typeof replacer !== 'object' || typeof replacer.length !== 'number')
+    && !Array.isArray(replacer)
   ) {
     throw new Error('JSON.stringify')
   }
