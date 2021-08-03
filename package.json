@@ -1,7 +1,7 @@
 {
   "name": "json-big",
-  "version": "1.0.0",
-  "description": "JSON.parse with bigints support",
+  "version": "1.0.1",
+  "description": "JSON.parse with bigints support for ESM",
   "module": "dist/index.js",
   "type": "module",
   "files": [
