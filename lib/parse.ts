@@ -352,7 +352,7 @@ export function JSONParse(options?: Options) {
     // Parse an object value.
 
     let key
-    const object = Object.create(null)
+    const object = new Object()
 
     if (ch === '{') {
       next('{')
